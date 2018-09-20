@@ -24,7 +24,7 @@
  */
 
     //setting the session & other config options
-    session_start();
+//    session_start();
 
     //don't require standard openemr authorization in globals.php
     $ignoreAuth = 1;
@@ -39,10 +39,10 @@
 
     ini_set("error_log", E_ERROR || ~E_NOTICE);
     //exit if portal is turned off
-if (!(isset($GLOBALS['portal_onsite_two_enable'])) || !($GLOBALS['portal_onsite_two_enable'])) {
-    echo htmlspecialchars(xl('Patient Portal is turned off'), ENT_NOQUOTES);
-    exit;
-}
+//if (!(isset($GLOBALS['portal_onsite_two_enable'])) || !($GLOBALS['portal_onsite_two_enable'])) {
+//    echo htmlspecialchars(xl('Patient Portal is turned off'), ENT_NOQUOTES);
+//    exit;
+//}
 
     // security measure -- will check on next page.
     $_SESSION['itsme'] = 1;

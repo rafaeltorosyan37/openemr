@@ -37,6 +37,18 @@ while ($row = sqlFetchArray($res)) {
     $coljson .= "{\"sName\": \"" . addcslashes($colname, "\t\r\n\"\\") . "\"}";
     ++$colcount;
 }
+$colname = 'actions';
+$title = xl_list_label('Actions');
+$header .= "   <th>";
+$header .= text($title);
+$header .= "</th>\n";
+$header0 .= "   <td align='center'><input type='text' size='10' ";
+$header0 .= "value='' class='search_init' /></td>\n";
+if ($coljson) {
+    $coljson .= ", ";
+}
+$coljson .= "{\"sName\": \"" . addcslashes($colname, "\t\r\n\"\\") . "\"}";
+++$colcount;
 ?>
 <html>
 <head>
@@ -50,7 +62,7 @@ while ($row = sqlFetchArray($res)) {
     <script type="text/javascript" src="<?php echo $GLOBALS['assets_static_relative']; ?>/jquery-1-10-2/jquery.js"></script>
     <script type="text/javascript" src="<?php echo $GLOBALS['assets_static_relative']; ?>/datatables.net/js/jquery.dataTables.js"></script>
     <script type="text/javascript" src="<?php echo $GLOBALS['assets_static_relative']; ?>/datatables.net-colreorder/js/dataTables.colReorder.js"></script>
-
+    <script type="text/javascript" src="<?php echo $GLOBALS['webroot'] ?>/library/dialog.js?v=<?php echo $v_js_includes; ?>"></script>
     <script language="JavaScript">
 
     var uspfx = '<?php echo attr($uspfx); ?>';
@@ -122,6 +134,11 @@ while ($row = sqlFetchArray($res)) {
             let target = uspfx + "patient_finder_exact_search";
             let val = el.checked ? ' checked' : ' ';
             $.post( "../../../library/ajax/user_settings.php", { target: target, setting: val });
+        }
+        function exportPatientPopup(pid){
+            top.restoreSession();
+            dlgopen('../../patient_file/export/export_patient_data_popup.php?pid=' + pid);
+            return false;
         }
 
     </script>

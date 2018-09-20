@@ -83,7 +83,7 @@ $rule = $viewBean->rule ?>
         <p>
             <?php if ($filters->criteria) { ?>
 
-                <div>
+                <div style="clear:both">
                     <span class="left_col">&nbsp;</span>
                     <span class="mid_col"><u><?php echo out(xl('Criteria')); ?></u></span>
                     <span class="mid_col"><u><?php echo out(xl('Characteristics')); ?></u></span>
@@ -91,7 +91,7 @@ $rule = $viewBean->rule ?>
                 </div>
 
                 <?php foreach ($filters->criteria as $criteria) { ?>
-                    <div>
+                    <div  style="clear:both">
                         <span class="left_col">
                             <a href="index.php?action=edit!filter&id=<?php echo out($rule->id); ?>&guid=<?php echo out($criteria->guid); ?>"
                                class="action_link" onclick="top.restoreSession()">
@@ -139,7 +139,7 @@ $rule = $viewBean->rule ?>
             <p>
                 <?php if ($targets->criteria) { ?>
     
-                    <div>
+                    <div  style="clear:both">
                         <span class="left_col">&nbsp;</span>
                         <span class="mid_col"><u><?php echo out(xl('Criteria')); ?></u></span>
                         <span class="mid_col"><u><?php echo out(xl('Characteristics')); ?></u></span>

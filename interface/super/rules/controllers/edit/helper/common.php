@@ -48,7 +48,7 @@ General Helpers
     <span class="left_col colhead req" data-field="<?php echo out($args['name']); ?>"><?php echo out($args['title']); ?></span>
     <span class="end_col">
         <input id="<?php echo $args['id'] ? out($args['id']) : ""?>"
-               data-grp-tgt="<?php echo out($args['target']); ?>" class="field <?php echo out($args['class']); ?>"
+               data-grp-tgt="<?php echo out(getArrayValue($args, 'target')); ?>" class="field <?php echo out(getArrayValue($args, 'class')); ?>"
                type="text"
                name="<?php echo out($args['name']); ?>"
                value="<?php echo out($args['value']);?>" />
@@ -114,12 +114,12 @@ Compound Helpers
     return generate_select_list(
         $args['name'],
         $args['context'],
-        $args['value']->code,
+        getObjValue($args['value'], 'code'),
         $args['name'],
         '',
         '',
         '',
-        $args['id'],
+        getArrayValue($args, 'id'),
         array( "data-grp-tgt" => $args['target'] )
     );
 } ?>

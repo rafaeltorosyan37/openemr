@@ -56,6 +56,9 @@ $where = '';
 if (isset($_GET['sSearch']) && $_GET['sSearch'] !== "") {
     $sSearch = add_escape_custom(trim($_GET['sSearch']));
     foreach ($aColumns as $colname) {
+        if($colname == 'actions'){
+            continue;
+        }
         $where .= $where ? "OR " : "WHERE ( ";
         if ($colname == 'name') {
             if ($searchMethodInPatientList) { // exact search
@@ -85,7 +88,7 @@ if (isset($_GET['sSearch']) && $_GET['sSearch'] !== "") {
 //
 for ($i = 0; $i < count($aColumns); ++$i) {
     $colname = $aColumns[$i];
-    if (isset($_GET["bSearchable_$i"]) && $_GET["bSearchable_$i"] == "true" && $_GET["sSearch_$i"] != '') {
+    if (isset($_GET["bSearchable_$i"]) && $_GET["bSearchable_$i"] == "true" && $_GET["sSearch_$i"] != '' && $colname != 'actions') {
         $where .= $where ? ' AND' : 'WHERE';
         $sSearch = add_escape_custom($_GET["sSearch_$i"]);
         if ($colname == 'name') {
@@ -113,7 +116,7 @@ for ($i = 0; $i < count($aColumns); ++$i) {
 //
 $sellist = 'pid';
 foreach ($aColumns as $colname) {
-    if ($colname == 'pid') {
+    if ($colname == 'pid' || $colname == 'actions') {
         continue;
     }
 
@@ -161,7 +164,7 @@ while ($row = sqlFetchArray($res)) {
         if ($colname == 'name') {
             $name = $row['lname'];
             if ($name && $row['fname']) {
-                $name .= ', ';
+                $name .= ' ';
             }
 
             if ($row['fname']) {
@@ -174,7 +177,11 @@ while ($row = sqlFetchArray($res)) {
 
             $arow[] = attr($name);
         } else {
-            $arow[] = isset($fieldsInfo[$colname]) ? attr(generate_plaintext_field($fieldsInfo[$colname], $row[$colname])) : attr($row[$colname]);
+            if($colname != 'actions') {
+                $arow[] = isset($fieldsInfo[$colname]) ? attr(generate_plaintext_field($fieldsInfo[$colname], $row[$colname])) : attr($row[$colname]);
+            }else{
+                $arow[] = "<input type='button' value='Export' name='export' onmousedown='return exportPatientPopup(". $row['pid'] .")' />";
+            }
         }
     }
 

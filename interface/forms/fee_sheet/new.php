@@ -106,9 +106,7 @@ function echoServiceLines()
         // if the line to ouput is copay, show the date here passed as $ndc_info,
         // since this variable is not applicable in the case of copay.
         if ($codetype == 'COPAY') {
-            if (!empty($ndc_info)) {
-                echo "(" . text($ndc_info) . ")";
-            }
+            echo "(" . text($ndc_info) . ")";
             $ndc_info = '';
         }
 

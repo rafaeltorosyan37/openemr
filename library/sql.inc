@@ -186,7 +186,7 @@ function sqlStatementCdrEngine($statement, $binds = false)
 function sqlFetchArray($r)
 {
   //treat as an adodb recordset
-    if ($r === false) {
+    if ($r === false || $r === NULL) {
         return false;
     }
 

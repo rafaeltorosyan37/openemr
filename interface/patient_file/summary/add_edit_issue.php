@@ -28,11 +28,12 @@ require_once($GLOBALS['srcdir'].'/csv_like_join.php');
 
 // TBD - Resolve functional issues if opener is included in Header
 ?>
+<script type="text/javascript" src="<?php echo $webroot ?>/interface/main/tabs/js/dialog_utils.js?v=<?php echo $v_js_includes; ?>"></script>
 <script type="text/javascript" src="<?php echo $webroot ?>/interface/main/tabs/js/include_opener.js?v=<?php echo $v_js_includes; ?>"></script>
 <?php
 use OpenEMR\Core\Header;
 
-if ($_POST['form_save']) {
+if (getArrayValue($_POST,'form_save')) {
     // Following hidden field received in the form will be used to ensure integrity of form values
     // 'issue', 'thispid', 'thisenc'
     $issue = $_POST['issue'];
@@ -256,7 +257,7 @@ function ActiveIssueCodeRecycleFn($thispid2, $ISSUE_TYPES2)
 
 // If we are saving, then save and close the window.
 //
-if ($_POST['form_save']) {
+if (getArrayValue($_POST,'form_save')) {
     $i = 0;
     $text_type = "unknown";
     foreach ($ISSUE_TYPES as $key => $value) {
@@ -518,12 +519,12 @@ ActiveIssueCodeRecycleFn($thispid, $ISSUE_TYPES);
   document.getElementById('row_referredby'    ).style.display = (f.form_referredby.value) ? '' : comdisp;
 
 <?php
-if ($ISSUE_TYPES['football_injury']) {
+if (getArrayValue($ISSUE_TYPES, 'football_injury')) {
     // Generate more of these for football injury fields.
     issue_football_injury_newtype();
 }
 
-if ($ISSUE_TYPES['ippf_gcac'] && !$_POST['form_save']) {
+if (getArrayValue($ISSUE_TYPES, 'ippf_gcac') && !getArrayValue($_POST, 'form_save')) {
     // Generate more of these for gcac and contraceptive fields.
     if (empty($issue) || $irow['type'] == 'ippf_gcac') {
         issue_ippf_gcac_newtype();
@@ -768,7 +769,7 @@ foreach ($ISSUE_TYPES as $key => $value) {
  <tr>
   <td valign='top' id='title_diagnosis' nowrap><b><?php echo xlt('Title'); ?>:</b></td>
   <td>
-   <input type='text' size='40' name='form_title' value='<?php echo attr($irow['title']) ?>' style='width:100%' />
+   <input type='text' size='40' name='form_title' value='<?php echo attr(getArrayValue($irow,'title')) ?>' style='width:100%' />
    <input type='hidden' name='form_title_id' value='<?php echo attr($irow['list_option_id']) ?>'/>
   </td>
  </tr>
@@ -786,7 +787,7 @@ foreach ($ISSUE_TYPES as $key => $value) {
   <td valign='top' nowrap><b><?php echo xlt('Coding'); ?>:</b></td>
   <td>
    <input type='text' size='50' name='form_diagnosis'
-    value='<?php echo attr($irow['diagnosis']) ?>' onclick='sel_diagnosis()'
+    value='<?php echo attr(getArrayValue($irow, 'diagnosis')) ?>' onclick='sel_diagnosis()'
     title='<?php echo xla('Click to select or change coding'); ?>'
     style='width:100%' readonly />
   </td>
@@ -797,7 +798,7 @@ foreach ($ISSUE_TYPES as $key => $value) {
   <td>
 
    <input type='text' size='10' class='datepicker' name='form_begin' id='form_begin'
-    value='<?php echo attr($irow['begdate']) ?>'
+    value='<?php echo attr(getArrayValue($irow, 'begdate')) ?>'
     title='<?php echo xla('yyyy-mm-dd date of onset, surgery or start of medication'); ?>' />
   </td>
  </tr>
@@ -806,7 +807,7 @@ foreach ($ISSUE_TYPES as $key => $value) {
   <td valign='top' nowrap><b><?php echo xlt('End Date'); ?>:</b></td>
   <td>
    <input type='text' size='10' class='datepicker' name='form_end' id='form_end'
-    value='<?php echo attr($irow['enddate']) ?>'
+    value='<?php echo attr(getArrayValue($irow, 'enddate')) ?>'
     title='<?php echo xla('yyyy-mm-dd date of recovery or end of medication'); ?>' />
     &nbsp;(<?php echo xlt('leave blank if still active'); ?>)
   </td>
@@ -815,7 +816,7 @@ foreach ($ISSUE_TYPES as $key => $value) {
  <tr id='row_active'>
   <td valign='top' nowrap><b><?php echo xlt('Active'); ?>:</b></td>
   <td>
-   <input type='checkbox' name='form_active' value='1' <?php echo attr($irow['enddate']) ? "" : "checked"; ?>
+   <input type='checkbox' name='form_active' value='1' <?php echo attr(getArrayValue($irow, 'enddate')) ? "" : "checked"; ?>
     onclick='activeClicked(this);'
     title='<?php echo xla('Indicates if this issue is currently active'); ?>' />
   </td>
@@ -837,7 +838,7 @@ foreach ($ISSUE_TYPES as $key => $value) {
   <td>
     <?php
     // Modified 6/2009 by BM to incorporate the occurrence items into the list_options listings
-    generate_form_field(array('data_type'=>1,'field_id'=>'occur','list_id'=>'occurrence','empty_title'=>'SKIP'), $irow['occurrence']);
+    generate_form_field(array('data_type'=>1,'field_id'=>'occur','list_id'=>'occurrence','empty_title'=>'SKIP'), getArrayValue($irow, 'occurrence'));
     ?>
   </td>
  </tr>
@@ -850,7 +851,7 @@ foreach ($ISSUE_TYPES as $key => $value) {
 <?php
 foreach ($ISSUE_CLASSIFICATIONS as $key => $value) {
     echo "   <option value='".attr($key)."'";
-    if ($key == $irow['classification']) {
+    if ($key == getArrayValue($irow, 'classification')) {
         echo " selected";
     }
 
@@ -865,7 +866,7 @@ foreach ($ISSUE_CLASSIFICATIONS as $key => $value) {
   <tr id='row_severity'>
     <td valign='top' nowrap><b><?php echo xlt('Severity'); ?>:</b></td>
     <td><?php
-        $severity=$irow['severity_al'];
+        $severity=getArrayValue($irow, 'severity_al');
         generate_form_field(array('data_type'=>1,'field_id'=>'severity_id','list_id'=>'severity_ccda','empty_title'=>'SKIP'), $severity);
         ?>
     </td>
@@ -874,7 +875,7 @@ foreach ($ISSUE_CLASSIFICATIONS as $key => $value) {
    <td valign='top' nowrap><b><?php echo xlt('Reaction'); ?>:</b></td>
    <td>
         <?php
-        echo generate_select_list('form_reaction', 'reaction', $irow['reaction'], '', '', '', '');
+        echo generate_select_list('form_reaction', 'reaction',getArrayValue($irow,'reaction'), '', '', '', '');
         ?>
    </td>
   </tr>
@@ -883,7 +884,7 @@ foreach ($ISSUE_CLASSIFICATIONS as $key => $value) {
  <tr id='row_referredby'>
   <td valign='top' nowrap><b><?php echo xlt('Referred by'); ?>:</b></td>
   <td>
-   <input type='text' size='40' name='form_referredby' value='<?php echo attr($irow['referredby']) ?>'
+   <input type='text' size='40' name='form_referredby' value='<?php echo attr(getArrayValue($irow, 'referredby')) ?>'
     style='width:100%' title='<?php echo xla('Referring physician and practice'); ?>' />
   </td>
  </tr>
@@ -891,7 +892,7 @@ foreach ($ISSUE_CLASSIFICATIONS as $key => $value) {
  <tr id='row_comments'>
   <td valign='top' nowrap><b><?php echo xlt('Comments'); ?>:</b></td>
   <td>
-   <textarea name='form_comments' rows='4' cols='40' wrap='virtual' style='width:100%'><?php echo text($irow['comments']) ?></textarea>
+   <textarea name='form_comments' rows='4' cols='40' wrap='virtual' style='width:100%'><?php echo text(getArrayValue($irow, 'comments')) ?></textarea>
   </td>
  </tr>
 
@@ -901,7 +902,7 @@ foreach ($ISSUE_CLASSIFICATIONS as $key => $value) {
   <td valign='top' nowrap><b><?php echo xlt('Outcome'); ?>:</b></td>
   <td>
     <?php
-    echo generate_select_list('form_outcome', 'outcome', $irow['outcome'], '', '', '', 'outcomeClicked(this);');
+    echo generate_select_list('form_outcome', 'outcome', getArrayValue($irow, 'outcome'), '', '', '', 'outcomeClicked(this);');
     ?>
   </td>
  </tr>
@@ -912,7 +913,7 @@ foreach ($ISSUE_CLASSIFICATIONS as $key => $value) {
   <td valign='top' nowrap><b><?php echo xlt('Destination'); ?>:</b></td>
   <td>
 <?php if (true) { ?>
-   <input type='text' size='40' name='form_destination' value='<?php echo attr($irow['destination']) ?>'
+   <input type='text' size='40' name='form_destination' value='<?php echo attr(getArrayValue($irow, 'destination')) ?>'
     style='width:100%' title='GP, Secondary care specialist, etc.' />
 <?php } else { // leave this here for now, please -- Rod ?>
     <?php echo rbinput('form_destination', '1', 'GP', 'destination') ?>&nbsp;
@@ -926,11 +927,11 @@ foreach ($ISSUE_CLASSIFICATIONS as $key => $value) {
 </table>
 
 <?php
-if ($ISSUE_TYPES['football_injury']) {
+if (getArrayValue($ISSUE_TYPES, 'football_injury')) {
     issue_football_injury_form($issue);
 }
 
-if ($ISSUE_TYPES['ippf_gcac']) {
+if (getArrayValue($ISSUE_TYPES, 'ippf_gcac')) {
     if (empty($issue) || $irow['type'] == 'ippf_gcac') {
         issue_ippf_gcac_form($issue, $thispid);
     }

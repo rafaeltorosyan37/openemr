@@ -1184,6 +1184,7 @@ function updateEmployerData($pid, $new, $create = false)
 {
     $colnames = array('name','street','city','state','postal_code','country');
 
+    $set = '';
     if ($create) {
         $set .= "pid = '" . add_escape_custom($pid) . "', date = NOW()";
         foreach ($colnames as $key) {

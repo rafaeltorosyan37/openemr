@@ -233,6 +233,7 @@ class Document extends ORDataObject
      */
     function toString($html = false)
     {
+        $string = "";
         $string .= "\n"
         . "ID: " . $this->id."\n"
         . "FID: " . $this->foreign_id."\n"

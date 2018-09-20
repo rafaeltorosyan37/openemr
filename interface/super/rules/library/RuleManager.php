@@ -214,7 +214,9 @@ class RuleManager
         $ruleTargetGroups = $this->fetchRuleTargetCriteria($rule);
         $ruleActionGroups = $this->fetchRuleActions($rule);
         $groups = array();
-        $groupCount = max(end(array_keys($ruleTargetGroups)), end(array_keys($ruleActionGroups)));
+        $v1 = array_keys($ruleTargetGroups);
+        $v2 = array_keys($ruleActionGroups);
+        $groupCount = max(end($v1), end($v2));
         for ($groupId = 0; $groupId <= $groupCount; $groupId++) {
             $group = new RuleTargetActionGroup($groupId);
             $addGroup = false;
@@ -380,13 +382,13 @@ class RuleManager
     {
         $criterion = array();
         for ($iter=0; $row=sqlFetchArray($stmt); $iter++) {
-            $guid = $row['guid'];
+            $guid = getArrayValue($row, 'guid');
             $method = $row['method'];
-            $methodDetail = $row['method_detail'];
+            $methodDetail = getArrayValue($row, 'method_detail');
             $value = $row['value'];
             $inclusion = $row['include_flag'] == 1;
             $optional = $row['required_flag'] == 1;
-            $groupId =  $row['group_id'];
+            $groupId =  getArrayValue($row, 'group_id');
 
 
             $criteria = $factory->build(

@@ -309,3 +309,17 @@ function oeFormatAge($dobYMD, $nowYMD = '', $format = 0)
 
     return $age;
 }
+
+function getArrayValue($array, $index, $fallback = null){
+        if (isset($array[$index])) {
+            return $array[$index];
+        }
+        return $fallback;
+}
+
+function getObjValue($obj, $index, $fallback = null){
+    if (isset($obj->$index)) {
+        return $obj->$index;
+    }
+    return $fallback;
+}

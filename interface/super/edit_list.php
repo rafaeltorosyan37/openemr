@@ -207,7 +207,7 @@ if ($_POST['formaction'] == 'save' && $list_id) {
             }
         }
     }
-} elseif ($_POST['formaction'] == 'addlist') {
+} elseif (getArrayValue($_POST,'formaction') == 'addlist') {
     // make a new list ID from the new list name
     $newlistID = $_POST['newlistname'];
     $newlistID = preg_replace("/\W/", "_", $newlistID);
@@ -220,7 +220,7 @@ if ($_POST['formaction'] == 'save' && $list_id) {
         "list_id, option_id, title, seq, is_default, option_value " .
         ") VALUES ( 'lists', ?, ?, ?, '1', '0')", array($newlistID, $_POST['newlistname'], ($row['maxseq'] + 1)));
     $list_id = $newlistID;
-} elseif ($_POST['formaction'] == 'deletelist') {
+} elseif (getArrayValue($_POST, 'formaction') == 'deletelist') {
     // delete the lists options
     sqlStatement("DELETE FROM list_options WHERE list_id = ?", array($_POST['list_id']));
     // delete the list from the master list-of-lists

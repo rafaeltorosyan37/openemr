@@ -83,4 +83,42 @@ class Patient extends ORDataObject
     {
         return $this->date_of_birth;
     }
+    function sharePatientData($requestData = []){
+//        var_dump($requestData);die;
+        if (!empty(getArrayValue($_POST))) {
+            $res = sqlQuery("SELECT providerID,fname,lname,mname " .
+                ", DATE_FORMAT(DOB,'%m/%d/%Y') as date_of_birth " .
+                ", pubpid " .
+                " from " . $this->_table . " where pid =" . add_escape_custom($this->id));
+
+        }
+        $objWriter = new XMLWriter(XMLWriter::STORAGE_MEMORY);
+        // XML header
+        $objWriter->startDocument('1.0', 'UTF-8', 'yes');
+
+        // Relationships
+        $objWriter->startElement('Relationships');
+        $objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/relationships');
+        // Relationship styles.xml
+//        (new \PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels())->writeRelationship(
+//            $objWriter,
+//            1,
+//            'http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles',
+//            'styles.xml'
+//        );
+
+        $objWriter->endElement();
+
+        return $objWriter->getData();
+        switch ($case){
+            case "dowlnoad":
+                break;
+            case "save_docs":
+                break;
+            case "send_email":
+                break;
+        }
+
+    }
+
 } // end of Patient

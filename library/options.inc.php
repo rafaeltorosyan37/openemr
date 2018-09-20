@@ -65,9 +65,9 @@ function optionalAge($frow, $date, &$asof, $description = '')
     }
 
     $date = substr($date, 0, 10);
-    if (isOption($frow['edit_options'], 'A') !== false) {
+    if (isOption(getArrayValue($frow,'edit_options'), 'A') !== false) {
         $format = 0;
-    } elseif (isOption($frow['edit_options'], 'B') !== false) {
+    } elseif (isOption(getArrayValue($frow, 'edit_options'), 'B') !== false) {
         $format = 3;
     } else {
         return '';
@@ -318,7 +318,7 @@ function generate_form_field($frow, $currvalue)
     $data_type   = $frow['data_type'];
     $field_id    = $frow['field_id'];
     $list_id     = $frow['list_id'];
-    $backup_list = $frow['list_backup_id'];
+    $backup_list = getArrayValue($frow, 'list_backup_id');
 
   // escaped variables to use in html
     $field_id_esc= htmlspecialchars($field_id, ENT_QUOTES);
@@ -329,7 +329,7 @@ function generate_form_field($frow, $currvalue)
 
   // Support edit option T which assigns the (possibly very long) description as
   // the default value.
-    if (isOption($frow['edit_options'], 'T') !== false) {
+    if (isOption(getArrayValue($frow,'edit_options'), 'T') !== false) {
         if (strlen($currescaped) == 0) {
             $currescaped = $description;
         }
@@ -356,13 +356,13 @@ function generate_form_field($frow, $currvalue)
         $empty_title = "Unassigned";
     }
 
-    $disabled = isOption($frow['edit_options'], '0') === false ? '' : 'disabled';
+    $disabled = isOption(getArrayValue($frow,'edit_options'), '0') === false ? '' : 'disabled';
 
     $lbfchange = (
-        strpos($frow['form_id'], 'LBF') === 0 ||
-        strpos($frow['form_id'], 'LBT') === 0 ||
-        $frow['form_id'] == 'DEM'             ||
-        $frow['form_id'] == 'HIS'
+        strpos(getArrayValue($frow,'form_id'), 'LBF') === 0 ||
+        strpos(getArrayValue($frow,'form_id'), 'LBT') === 0 ||
+        getArrayValue($frow, 'form_id') == 'DEM'             ||
+        getArrayValue($frow, 'form_id') == 'HIS'
     ) ? "checkSkipConditions();" : "";
     $lbfonchange = $lbfchange ? "onchange='$lbfchange'" : "";
 
@@ -2452,7 +2452,7 @@ function generate_plaintext_field($frow, $currvalue)
     $data_type = $frow['data_type'];
     $field_id  = isset($frow['field_id']) ? $frow['field_id'] : null;
     $list_id   = $frow['list_id'];
-    $backup_list = $frow['backup_list'];
+    $backup_list = getArrayValue($frow, 'backup_list');
     $s = '';
 
   // generic selection list or the generic selection list with add on the fly
@@ -2474,7 +2474,7 @@ function generate_plaintext_field($frow, $currvalue)
         $s = $currvalue;
     } // date
     elseif ($data_type == 4) {
-        $modtmp = isOption($frow['edit_options'], 'F') === false ? 0 : 1;
+        $modtmp = isOption(getArrayValue($frow, 'edit_options'), 'F') === false ? 0 : 1;
         if (!$modtmp) {
             $s = text(oeFormatShortDate($currvalue));
         } else {

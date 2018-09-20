@@ -287,6 +287,12 @@ function doPublish() {
     });
 }
 
+function exportPatientPopup(pid){
+    top.restoreSession();
+    dlgopen('../../patient_file/export/export_patient_data_popup.php?pid=' + pid);
+    return false;
+}
+
 $(document).ready(function(){
   var msg_updation='';
     <?php
@@ -802,6 +808,11 @@ $menu_restrictions = $menuPatient->getMenu();
                 <div style='float:left; margin-right:20px'>
 
                     <table cellspacing=0 cellpadding=0>
+                        <tr>
+                            <td>
+                                <input type='button' value='Export' name='export' onmousedown='return exportPatientPopup("<?php echo attr($pid) ?>")' />
+                            </td>
+                        </tr>
                     <?php if (!$GLOBALS['hide_billing_widget']) { ?>
                         <tr>
                             <td>

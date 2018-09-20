@@ -34,7 +34,7 @@ class TimeUnit
     public static function from($code)
     {
         $map = self::map();
-        return $map[$code];
+        return $code ? getArrayValue($map, $code) : null;
     }
 
     public static function values()

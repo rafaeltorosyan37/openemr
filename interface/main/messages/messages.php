@@ -722,7 +722,7 @@ if (!empty($_REQUEST['go'])) { ?>
                                         </form>
                                         <div class='row oe-margin-t-10'>
                                             
-                                            <div class=\"col-xs-12 col-md-12 col-lg-12\"><a href=\"messages.php?showall=" . attr($showall) . "&sortby=" . attr($sortby) . "&sortorder=" . attr($sortorder) . "&begin=" . attr($begin) . "&task=addnew&$activity_string_html\" class=\"btn btn-default btn-add\" onclick=\"top.restoreSession()\">" .
+                                            <div class=\"col-xs-12 col-md-12 col-lg-12 red\"><a href=\"messages.php?showall=" . attr($showall) . "&sortby=" . attr($sortby) . "&sortorder=" . attr($sortorder) . "&begin=" . attr($begin) . "&task=addnew&$activity_string_html\" class=\"btn btn-default btn-add\" onclick=\"top.restoreSession()\">" .
                                             xlt('Add New') . "</a> &nbsp; <a href=\"javascript:confirmDeleteSelected()\" class=\"btn btn-default btn-delete\" onclick=\"top.restoreSession()\">" .
                                             xlt('Delete') . "</a>
                                             <div  class=\"text-right\">$prevlink &nbsp; $end " .xlt('of') . " $total &nbsp; $nextlink</div>

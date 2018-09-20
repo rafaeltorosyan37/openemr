@@ -332,8 +332,7 @@ $('.datepicker').datetimepicker({
 
 <h2><?php echo $report_title; ?></h2>
 
-<form name='theform' method='post' action='procedure_stats.php' onsubmit='return top.restoreSession()'>
-<input type="hidden" name="csrf_token_form" value="<?php echo attr(collectCsrfToken()); ?>" />
+<form name='theform' method='post' action='procedure_stats.php'>
 
 <table border='0' cellspacing='5' cellpadding='1'>
 
@@ -454,10 +453,6 @@ title='<?php echo xla('Click to generate the report'); ?>' />
 } // end not export
 
 if ($_POST['form_submit']) {
-    if (!verifyCsrfToken($_POST["csrf_token_form"])) {
-        die(xlt('Authentication Error'));
-    }
-
     $pd_fields = '';
     foreach ($arr_show as $askey => $asval) {
         if (substr($askey, 0, 1) == '.') {
@@ -470,7 +465,7 @@ if ($_POST['form_submit']) {
             continue;
         }
 
-        $pd_fields .= ', pd.' . escape_sql_column_name($askey, array('patient_data'));
+        $pd_fields .= ', pd.' . $askey;
     }
 
     $sexcond = '';

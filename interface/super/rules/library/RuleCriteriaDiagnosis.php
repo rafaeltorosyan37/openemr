@@ -63,6 +63,6 @@ class RuleCriteriaDiagnosis extends RuleCriteria
         $exploded = explode(" ", $value);
         $diagInfo = explode(":", $exploded[0]);
         $this->codeType = $diagInfo[0];
-        $this->id = $diagInfo[1];
+        $this->id = getArrayValue($diagInfo, 1);
     }
 }

@@ -92,7 +92,11 @@ $GLOBALS['OE_SITES_BASE'] = "$webserver_root/sites";
 ini_set('session.cookie_path', $web_root ? $web_root : '/');
 session_name("OpenEMR");
 
-session_start();
+//session_start();
+if(!isset($_SESSION))
+{
+    session_start();
+}
 
 // Set the site ID if required.  This must be done before any database
 // access is attempted.

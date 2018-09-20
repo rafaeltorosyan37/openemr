@@ -7,7 +7,7 @@
  // of the License, or (at your option) any later version.
 
     //setting the session & other config options
-    session_start();
+//    session_start();
 
     //don't require standard openemr authorization in globals.php
     $ignoreAuth = 1;

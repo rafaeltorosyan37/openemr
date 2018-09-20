@@ -161,7 +161,7 @@ function cancelClickedOld() {
 
 <form id="new-encounter-form" method='post' action="<?php echo $rootdir ?>/forms/newGroupEncounter/save.php" name='new_encounter'>
 
-<div id="new-encounter-group-title">
+<div style='float:left'>
 <?php if ($viewmode) { ?>
 <input type=hidden name='mode' value='update'>
 <input type=hidden name='id' value='<?php echo (isset($_GET["id"])) ? attr($_GET["id"]) : '' ?>'>
@@ -173,7 +173,7 @@ function cancelClickedOld() {
 </div>
 
 <div>
-    <div id="new-encounter-group-buttons">
+    <div style = 'float:left; margin-left:8px;margin-top:-3px'>
       <a href="javascript:saveClicked(undefined);" class="css_button link_submit"><span><?php echo xlt('Save'); ?></span></a>
         <?php
         if ($viewmode || !isset($_GET["autoloaded"]) || $_GET["autoloaded"] != "1") { ?>

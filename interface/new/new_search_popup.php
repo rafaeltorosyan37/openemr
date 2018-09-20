@@ -12,7 +12,7 @@
 require_once("../globals.php");
 require_once("$srcdir/patient.inc");
 
-$fstart = $_REQUEST['fstart'] + 0;
+$fstart = getArrayValue($_REQUEST, 'fstart') + 0;
 
 $searchcolor = empty($GLOBALS['layout_search_color']) ?
   '#ffff55' : $GLOBALS['layout_search_color'];

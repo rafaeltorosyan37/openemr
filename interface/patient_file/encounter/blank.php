@@ -5,7 +5,7 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
-require_once("../../globals.php");
+include_once("../../globals.php");
 
 ?>
 <html>

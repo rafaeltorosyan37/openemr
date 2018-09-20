@@ -41,13 +41,13 @@ class ActionRouter
 
         $result = $this->perform($this->action);
 
-        $forward = $result->_forward;
+        $forward = getObjValue($result, "_forward");
         if ($forward) {
             $this->perform($forward);
             return;
         }
 
-        $_redirect = $result->_redirect;
+        $_redirect = getObjValue($result, "_redirect");
         if ($_redirect) {
             $baseTemplatesDir = base_dir() . "base/template";
             require($baseTemplatesDir . "/redirect.php");
@@ -62,9 +62,8 @@ class ActionRouter
         method_exists($this->controller, $action_method) ?
                 $this->controller->$action_method() : $this->controller->_action_default();
         $result = $this->controller->viewBean;
-
         // resolve view location
-        $viewName = $result->_view;
+        $viewName = getObjValue($result, "_view");
         $view_location = $this->path . "/view/" . $viewName;
         if (!is_file($view_location)) {
             // try common
@@ -75,7 +74,7 @@ class ActionRouter
         $viewBean = $result;
 
         // set helpers
-        $helpers = $viewBean->helpers;
+        $helpers = getObjValue($viewBean, "helpers");
         if (!is_null($helpers)) {
             foreach ($helpers as $helper) {
                 $helperPath = $this->resolveHelper($helper);
@@ -94,7 +93,7 @@ class ActionRouter
         $viewBean->_webRoot = $this->webRoot;
         $viewBean->_view_body = $view_location;
 
-        $template = $this->resolveTemplate($result->_template);
+        $template = $this->resolveTemplate( getObjValue($result, "_template"));
         require($template);
 
         return $result;

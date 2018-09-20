@@ -35,7 +35,7 @@ class Controller_edit extends BaseController
         $funding = _post('fld_funding_source');
         $release = _post('fld_release');
         $web_ref = _post('fld_web_reference');
-        if (is_null($rule_id)) {
+        if (is_null($ruleId)) {
             // its a new rule submit
             $ruleId = $this->getRuleManager()->updateSummary($ruleId, $types, $title, $developer, $funding, $release, $web_ref);
             // redirect to the intervals page
@@ -260,7 +260,7 @@ class Controller_edit extends BaseController
         $itemLbl = _post("fld_item_lbl");
         $link = _post("fld_link");
         $message = _post("fld_message");
-        $fld_target_guid = _post("fld_target");
+        $fld_target_criteria = _post("fld_target");
         $customOption = _post("fld_custom_input") == "yes" ? 1 : 0;
 
         $action = $this->getRuleManager()->getRuleAction($rule, $guid);
